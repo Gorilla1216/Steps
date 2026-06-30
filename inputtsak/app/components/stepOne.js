@@ -61,8 +61,8 @@ export const StepOne = ({ handleNext }) => {
   };
 
   const handleButtonClick = () => {
-    const isValid = validateInput();
-    if (isValid == true) {
+    const haha = validateInput();
+    if (haha == true) {
       handleNext();
     }
   };

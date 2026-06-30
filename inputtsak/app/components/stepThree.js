@@ -9,11 +9,11 @@ export const StepThree = ({ handleNext, handlePrev }) => {
     const file = event.target.files?.[0];
     if (!file) return;
     setImgUrl(URL.createObjectURL(file));
-    setDate("");
+    setFileError("");
   };
 
   const validateInput = () => {
-    if (!imgUrl) {
+    if (imgUrl.length === 0) {
       setFileError("Please upload profile picture");
       return false;
     }
@@ -23,7 +23,7 @@ export const StepThree = ({ handleNext, handlePrev }) => {
 
   const handleButtonClickTwo = () => {
     if (validateInput()) {
-      handleNext() && handlePrev();
+      handleNext();
     }
   };
 
@@ -42,7 +42,9 @@ export const StepThree = ({ handleNext, handlePrev }) => {
             <label
               htmlFor="Date"
               className="text-lg text-[#334155] font-semibold "
-            >Date of birth</label>
+            >
+              Date of birth
+            </label>
             <input
               type="date"
               name="date"
@@ -50,7 +52,6 @@ export const StepThree = ({ handleNext, handlePrev }) => {
               onChange={(event) => setDate(event.target.value)}
               className="w-64 text-<base> border border-[#0CA5E9] rounded-md px-4 py-2"
             />
-         
           </div>
           <div className="flex flex-col">
             <label
@@ -65,8 +66,10 @@ export const StepThree = ({ handleNext, handlePrev }) => {
               onChange={handleImgUpload}
               className="w-64 text-<base> border border-[#0CA5E9] rounded-md px-4 py-2"
             />
-            {imgUrl && (<img src={imgUrl} className="w-50"/>)}
-            {fileError.length > 0 && <p className="font-normal text-sm text-[#E14942]">{fileError}</p>}
+            {imgUrl && <img src={imgUrl} className="w-50" />}
+            {fileError.length > 0 && (
+              <p className="font-normal text-sm text-[#E14942]">{fileError}</p>
+            )}
           </div>
 
           <div className="flex gap-4 my-10 rounded-sm">

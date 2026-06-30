@@ -1,42 +1,31 @@
 import { useState } from "react";
 
 export const StepThree = ({ handleNext, handlePrev }) => {
-  const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
+  const [date, setDate] = useState("");
+  const [imgUrl, setImgUrl] = useState("");
+  const [fileError, setFileError] = useState("");
 
-  const checkEmail = () => {
-    const onlyAt = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    let isValid = true;
+  const handleImgUpload = (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setImgUrl(URL.createObjectURL(file));
+    setDate("");
+  };
 
-     if (email.length == 0) {
-      setEmailError(
-       "Please provide a valid email address.",
-      );
-      isValid = false;
-    } else if (onlyAt.test(email) == false) {
-      setEmailError(
-        "Please provide a valid email address.",
-      );
-      isValid = false;
-    } else {
-      setEmailError("");
+  const validateInput = () => {
+    if (!imgUrl) {
+      setFileError("Please upload profile picture");
+      return false;
     }
-
-    
-
-    return isValid
+    setFileError("");
+    return true;
   };
 
   const handleButtonClickTwo = () => {
-    const isValid = checkEmail();
-    if (isValid == true) {
-      handleNext();
+    if (validateInput()) {
+      handleNext() && handlePrev();
     }
-  }
-
-  
-
-  
+  };
 
   return (
     <div className="flex align-center justify-center">
@@ -51,38 +40,34 @@ export const StepThree = ({ handleNext, handlePrev }) => {
           </div>
           <div className="flex flex-col">
             <label
-              htmlFor="Email Address"
+              htmlFor="Date"
               className="text-lg text-[#334155] font-semibold "
-            >
-              Email
-            </label>
+            >Date of birth</label>
             <input
-              type="email"
-              placeholder="your@example.com"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              type="date"
+              name="date"
+              value={date}
+              onChange={(event) => setDate(event.target.value)}
               className="w-64 text-<base> border border-[#0CA5E9] rounded-md px-4 py-2"
             />
-            {emailError.length > 0 && (
-              <p className="font-normal text-sm text-[#E14942]">{emailError}</p>
-            )}
+         
           </div>
           <div className="flex flex-col">
             <label
-              for="Phone Number"
+              htmlFor="image"
               className="text-lg text-[#334155] font-semibold "
             >
-              Phone number
+              Profile image
             </label>
             <input
-              type="number"
+              type="file"
+              accept="image/*"
+              onChange={handleImgUpload}
               className="w-64 text-<base> border border-[#0CA5E9] rounded-md px-4 py-2"
             />
-            <p className="font-normal text-sm text-[#E14942]">
-              Please enter a valid phone number.
-            </p>
+            {imgUrl && (<img src={imgUrl} className="w-50"/>)}
+            {fileError.length > 0 && <p className="font-normal text-sm text-[#E14942]">{fileError}</p>}
           </div>
-
 
           <div className="flex gap-4 my-10 rounded-sm">
             <button

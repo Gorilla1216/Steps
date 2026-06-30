@@ -8,11 +8,13 @@ export const StepTwo = ({ handleNext, handlePrev }) => {
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confrirmPassword, setConfirmPassword] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
   const checkEmail = () => {
     const onlyAt = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const onlyNumber = /^[0-9]{8,12}$/;
     const onlyPassword = /^(?=.*[A-Za-z])(?=.*\d)[^\s]{8,}$/;
+
     let isValid = true;
 
     if (email.length == 0) {
@@ -46,11 +48,15 @@ export const StepTwo = ({ handleNext, handlePrev }) => {
     }
 
     if (confrirmPassword.length == 0) {
-      setConfirmPassword(" Passwords do not match. Please try again.");
+      setConfirmPasswordError("Please confirm your password.");
       isValid = false;
-    } else if (confrirmPassword !== password){
-      setConfirmPassword(" Password do not match. Please try again.")
+    } else if (confrirmPassword !== password) {
+      setConfirmPasswordError("Passwords do not match. Please try again.");
+      isValid = false;
+    } else {
+      setConfirmPasswordError("");
     }
+
     return isValid;
   };
 
@@ -74,7 +80,7 @@ export const StepTwo = ({ handleNext, handlePrev }) => {
           </div>
           <div className="flex flex-col">
             <label
-              htmlFor="Email Address"
+              htmlFor="Email"
               className="text-lg text-[#334155] font-semibold "
             >
               Email
@@ -130,7 +136,7 @@ export const StepTwo = ({ handleNext, handlePrev }) => {
           </div>
           <div className="flex flex-col">
             <label
-              htmlFor="Password"
+              htmlFor="Confirm Password"
               className="text-lg text-[#334155] font-semibold "
             >
               Confirm Password
@@ -141,9 +147,9 @@ export const StepTwo = ({ handleNext, handlePrev }) => {
               onChange={(event) => setConfirmPassword(event.target.value)}
               className="w-64 text-<base> border border-[#0CA5E9] rounded-md px-4 py-2"
             />
-            {confrirmPassword.length > 0 && (
+            {confirmPasswordError.length > 0 && (
               <p className="font-normal text-sm text-[#E14942]">
-                {setConfirmPassword}
+                {confirmPasswordError}
               </p>
             )}
           </div>
